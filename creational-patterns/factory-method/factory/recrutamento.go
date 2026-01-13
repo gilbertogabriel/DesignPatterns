@@ -1,18 +1,22 @@
 package factorymethod
 
-import "errors"
+import "fmt"
 
-func RecrutarCombatentes(tipo string) (ICombatente, error) {
-	switch tipo {
+// --- LOGÍSTICA DE ACESSO ---
+
+// ObterCentroDeRecrutamento: Função auxiliar para entregar a FÁBRICA correta.
+// No Factory Method, o cliente escolhe a fábrica, e a fábrica escolhe o produto.
+func ObterCentroDeRecrutamento(bioma string) (ICentroDeRecrutamento, error) {
+	switch bioma {
 	case "amazonia":
-		return &GuerreiroSelva{}, nil
+		return &BaseSelva{}, nil
 	case "caatinga":
-		return &GuerreiroCaatinga{}, nil
-	case "montanha":
-		return &CombatenteMontanha{}, nil
+		return &BaseCaatinga{}, nil
 	case "pantanal":
-		return &Pantaneiro{}, nil
+		return &BasePantanal{}, nil
+	case "montanha":
+		return &BaseMontanha{}, nil
 	default:
-		return nil, errors.New("unidade especializada não encontrada para este bioma")
+		return nil, fmt.Errorf("bioma %s não possui centro de treinamento", bioma)
 	}
 }
